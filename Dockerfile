@@ -9,4 +9,4 @@ RUN wget -q -O - $HUGO_DOWNLOAD | tar xvz -C /usr/local/bin
 
 ONBUILD COPY    . /src
 ONBUILD WORKDIR /src
-ONBUILD RUN     hugo
+ONBUILD RUN     hugo -v
