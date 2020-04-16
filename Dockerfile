@@ -1,11 +1,24 @@
-FROM alpine:latest
+FROM alpine:3.11 AS builder
 
-LABEL maintainer="https://github.com/idi-ops"
+ENV HUGO_VERSION=0.69.0
+ENV HUGO_URL=https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}
 
-ENV HUGO_VERSION=0.47.1
-ENV HUGO_DOWNLOAD=https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_${HUGO_VERSION}_Linux-64bit.tar.gz
+RUN apk add --no-cache  \
+        ca-certificates \
+        coreutils       \
+        curl
 
-RUN wget -q -O - $HUGO_DOWNLOAD | tar xvz -C /usr/local/bin
+RUN curl --remote-name-all --location                        \
+         ${HUGO_URL}/hugo_${HUGO_VERSION}_Linux-64bit.tar.gz \
+         ${HUGO_URL}/hugo_${HUGO_VERSION}_checksums.txt
+
+RUN sha256sum --ignore-missing --check hugo_${HUGO_VERSION}_checksums.txt && \
+    tar xvfzo hugo_${HUGO_VERSION}_Linux-64bit.tar.gz hugo
+
+
+FROM alpine:3.11
+
+COPY --from=builder /hugo /usr/local/bin/hugo
 
 ONBUILD COPY    . /src
 ONBUILD WORKDIR /src
