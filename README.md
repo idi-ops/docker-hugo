@@ -1,5 +1,7 @@
 # docker-hugo
 
+![CI](https://github.com/idi-ops/docker-hugo/workflows/Docker%20Image%20Push/badge.svg)
+
 Docker image for the Hugo static site generator
 
 ## Use as base image
