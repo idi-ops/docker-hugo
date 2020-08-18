@@ -1,6 +1,6 @@
 FROM alpine:3.11 AS builder
 
-ENV HUGO_VERSION=0.74.3
+ENV HUGO_VERSION=0.47.1
 ENV HUGO_URL=https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}
 
 RUN apk add --no-cache  \
